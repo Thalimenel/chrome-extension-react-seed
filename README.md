@@ -1,7 +1,7 @@
 # Chrome Extension React Seed
-Seed for work on chrome extensions.
-It is based on create-react-app with typescript for the popup
-the background is a regular ts
+Seed for work on chrome extensions.  
+It is based on create-react-app with typescript for the popup.  
+The background is a regular ts. It can use modules etc...
 
 
 
