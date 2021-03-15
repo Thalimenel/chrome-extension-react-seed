@@ -1,4 +1,4 @@
-import {dateStringToWorklogString} from '../convert'
+chrome.runtime.onInstalled.addListener(() => console.log("Type check"));
 
-console.log(dateStringToWorklogString("Type check"));
-//chrome.runtime.onInstalled.addListener(() => console.log(dateStringToWorklogString("Type check")));
+
+export {}
