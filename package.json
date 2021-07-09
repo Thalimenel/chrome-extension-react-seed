@@ -20,8 +20,9 @@
     "start": "react-scripts start",
     "prebuild": "rimraf build",
     "build": "npm-run-all build:*",
-    "build:app": "INLINE_RUNTIME_CHUNK=false react-scripts build && mv build/index.html build/popup/popup.html",
-    "build:bg": " webpack --mode production ./src/background/background.ts --output ./build/background/background.js",
+    "build:app": "INLINE_RUNTIME_CHUNK=false react-scripts build",
+    "build:bg": " gulp build_background",
+    "postbuild": "mkdir build/popup && mv build/index.html build/popup/popup.html",
     "pack": "gulp pack",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -46,13 +47,13 @@
   },
   "homepage": "../",
   "devDependencies": {
-    "@types/chrome": "0.0.103",
-    "adm-zip": "^0.4.14",
+    "@types/chrome": "^0.0.145",
+    "adm-zip": "^0.5.5",
     "gulp": "^4.0.2",
-    "gulp-zip": "^5.0.1",
+    "gulp-zip": "^5.1.0",
     "npm-run-all": "^4.1.5",
-    "rimraf": "^3.0.2",
-    "typescript": "^3.8.3",
-    "webpack-cli": "^3.3.12"
+    "rimraf": "^2.7.1",
+    "typescript": "^4.3.4",
+    "webpack-cli": "^4.7.2"
   }
 }
