@@ -10,7 +10,7 @@ if (fs.existsSync(BACKGROUND_ENTRY)) {
             entry: BACKGROUND_ENTRY,
             output: {
                 filename: 'background.js',
-                path: path.resolve(__dirname, 'build'),
+                path: path.resolve(__dirname, 'build/background'),
             },
         }
     ];

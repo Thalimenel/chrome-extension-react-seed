@@ -13,7 +13,7 @@ const exec = util.promisify(require('child_process').exec);
 
 const logError = msg => console.log(`[\x1b[38;5;240m${(new Date()).toTimeString().split(' ')[0]}\x1b[0m] \x1b[31m\x1b[1m%s\x1b[0m`, msg);
 
-const sourceFolder = 'src';
+
 const destinationFolder = 'build';
 const packageFolder = 'package';
 const packageFileName = 'package.zip';
@@ -36,6 +36,11 @@ const build = (cb) => {
 }
 build.displayName = 'Building Package'
 
+const buildNoPop = (cb) => {
+    exec('yarn run build-no-popup', cb);
+}
+buildNoPop.displayName = 'Building Package Without Popup'
+
 const tscBG = async () => {
     await exec('tsc --project ./bg.tsconfig.json');
 }
@@ -57,7 +62,7 @@ const checkManifest = async () => {
         let zip = new AdmZip(packageFile);
         let manifest = JSON.parse(zip.readAsText("manifest.json"));
         let oldVersion = manifest.version;
-        let realManifest = await fsPromises.readFile(`${sourceFolder}${path.sep}manifest.json`, { encoding: 'utf8' });
+        let realManifest = await fsPromises.readFile(`public${path.sep}manifest.json`, { encoding: 'utf8' });
         let newVersion = JSON.parse(realManifest).version;
         if (newVersion === oldVersion) {
             logError('Error: Change Manifest Version');
@@ -76,15 +81,22 @@ function zipPackage() {
 }
 zipPackage.displayName = 'Zipping'
 
-
+const copyAssets = () => {
+    return src([`public/**/*`, '!popup/**', '!favicon.ico', '!robots.txt', '!index.html'])
+        .pipe(dest(destinationFolder))
+}
+copyAssets.displayName = 'Copy Public Assets'
 
 const pack = series(checkManifest, parallel(cleanPackage, build), zipPackage);
 const build_background = series(cleanJS, tscBG, webpackBG, cleanJS)
-
+const packNoPop = series(checkManifest, parallel(cleanPackage, buildNoPop), zipPackage)
 
 exports.default = build;
 exports.build = build;
 exports.pack = pack;
+exports.packNoPop = packNoPop;
 exports.build_background = build_background;
 
 exports.cleanJS = series(webpackBG);
+
+exports.copyAssets = copyAssets;

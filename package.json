@@ -17,13 +17,16 @@
     "web-vitals": "^1.0.1"
   },
   "scripts": {
+    "copy-assets": "gulp \"Copy Public Assets\"",
     "start": "react-scripts start",
     "prebuild": "rimraf build",
     "build": "npm-run-all build:*",
     "build:app": "INLINE_RUNTIME_CHUNK=false react-scripts build",
     "build:bg": " gulp build_background",
-    "postbuild": "mkdir build/popup && mv build/index.html build/popup/popup.html",
+    "postbuild": "mkdir -p build/popup && mv build/index.html build/popup/popup.html",
+    "build-no-popup": "npm-run-all prebuild copy-assets build:bg",
     "pack": "gulp pack",
+    "pack-no-popup": "gulp packNoPop",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
