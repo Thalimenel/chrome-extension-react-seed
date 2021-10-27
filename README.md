@@ -17,3 +17,11 @@ builds the extension without the popup
 
 ### yarn run pack-no-popup
 builds the extension without the popup and creates a package.zip file
+
+
+## instructions
+Add web-accessible-resources in:
+* TS files: src/web-accessible-resources
+* other files in public/web-accessible-resources
+
+Similarly add content scripts TS files in: src/content-scripts
