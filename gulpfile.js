@@ -16,7 +16,7 @@ const logError = msg => console.log(`[\x1b[38;5;240m${(new Date()).toTimeString(
 
 const destinationFolder = 'build';
 const packageFolder = 'package';
-const packageFileName = 'package.zip';
+const packageFileName = `${process.env.npm_package_name || 'package'}.zip`;
 
 const clean = folder => async () => {
     let globs = await promiseGlob(`${folder}/**/*.*`);
