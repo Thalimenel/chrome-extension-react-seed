@@ -1,14 +1,12 @@
 const { series, parallel, src, dest } = require('gulp');
 const path = require("path");
 const util = require('util');
-const glob = require("glob");
 const fs = require("fs");
 const fsPromises = fs.promises;
 const AdmZip = require('adm-zip');
 const zip = require('gulp-zip');
 const rimraf = require('rimraf');
 
-const promiseGlob = util.promisify(glob);
 const exec = util.promisify(require('child_process').exec);
 
 const logError = msg => console.log(`[\x1b[38;5;240m${(new Date()).toTimeString().split(' ')[0]}\x1b[0m] \x1b[31m\x1b[1m%s\x1b[0m`, msg);
@@ -18,17 +16,13 @@ const destinationFolder = 'build';
 const packageFolder = 'package';
 const packageFileName = `${process.env.npm_package_name || 'package'}.zip`;
 
-const clean = folder => async () => {
-    let globs = await promiseGlob(`${folder}/**/*.*`);
-    for (let i = 0, length = globs.length; i < length; i++) {
-        await fsPromises.unlink(globs[i]);
-    }
-    await fsPromises.rmdir(folder, { recursive: true });
+const clean = path => cb => {
+    rimraf(path, cb);
 }
 
 
-const cleanPackage = clean(packageFolder);
-cleanPackage.displayName = 'Clean Package Folder'
+const cleanPackage = clean(`${packageFolder}/**/*.*`);
+cleanPackage.displayName = 'Clean Package Folder';
 
 
 const build = (cb) => {
@@ -51,10 +45,10 @@ const webpackBG = async () => {
 }
 webpackBG.displayName = 'Bundling scripts';
 
-const cleanJS = (cb) => {
-    rimraf('./src/**/*.js', cb);
-}
-cleanJS.displayName = 'Cleaning js files'
+
+const cleanJS = clean('./src/**/*.js');
+cleanJS.displayName = 'Cleaning js files';
+
 
 const checkManifest = async () => {
     let packageFile = `${__dirname}${path.sep}${packageFolder}${path.sep}${packageFileName}`;
