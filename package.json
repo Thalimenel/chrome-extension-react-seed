@@ -1,23 +1,17 @@
 {
   "name": "chrome-extension-react-seed",
-  "version": "0.1.0",
+  "version": "0.0.1",
   "private": true,
-  "dependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "web-vitals": "^2.1.4"
-  },
+  "packageManager": "yarn@3.1.1",
   "scripts": {
     "start": "react-scripts start",
     "clean_build": "rimraf build",
     "react_build": "INLINE_RUNTIME_CHUNK=false react-scripts build",
     "background_build": "gulp build_background",
     "order_after_build": "mkdir build/popup; mv build/index.html build/popup/popup.html",
-    "build": "run-s clean_build react_build background_build order_after_build",
-    "copy-assets": "gulp \"Copy Public Assets\"",
-    "build-no-popup": "run-s clean_build copy-assets background_build",
+    "update_manifest_version": "gulp update_manifest_ver",
+    "build": "run-s clean_build react_build background_build order_after_build update_manifest_version",
     "pack": "gulp pack",
-    "pack-no-popup": "gulp packNoPop",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -25,37 +19,49 @@
     "extends": [
       "react-app",
       "react-app/jest"
-    ]
+    ],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+      "ecmaVersion": "latest",
+      "sourceType": "module",
+      "project": "./tsconfig.json"
+    }
   },
   "browserslist": {
     "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
+      "last 1 chrome version"
     ],
     "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
+      "last 1 chrome version"
     ]
   },
   "homepage": "../",
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "web-vitals": "^4.2.3"
+  },
   "devDependencies": {
-    "@testing-library/jest-dom": "^5.16.4",
-    "@testing-library/react": "^13.3.0",
-    "@testing-library/user-event": "^14.3.0",
-    "@types/chrome": "^0.0.193",
-    "@types/jest": "^28.1.6",
-    "@types/node": "^18.6.1",
-    "@types/react": "^18.0.15",
-    "@types/react-dom": "^18.0.6",
-    "adm-zip": "^0.5.9",
-    "gulp": "^4.0.2",
-    "gulp-zip": "^5.1.0",
+    "@testing-library/jest-dom": "^6.5.0",
+    "@testing-library/react": "^16.0.1",
+    "@testing-library/user-event": "^14.5.2",
+    "@types/adm-zip": "^0.5.5",
+    "@types/chrome": "^0.0.277",
+    "@types/glob": "^8.1.0",
+    "@types/gulp": "^4.0.17",
+    "@types/jest": "^29.5.13",
+    "@types/node": "^22.7.5",
+    "@types/react": "^18.3.11",
+    "@types/react-dom": "^18.3.0",
+    "@types/rimraf": "^4.0.5",
+    "@typescript-eslint/parser": "^8.8.1",
+    "adm-zip": "^0.5.16",
+    "gulp": "^5.0.0",
+    "gulp-replace": "^1.1.4",
     "react-scripts": "^5.0.1",
-    "rimraf": "^3.0.2",
-    "typescript": "^4.7.4",
-    "webpack-cli": "^4.10.0",
+    "rimraf": "^6.0.1",
+    "typescript": "^5.6.3",
+    "webpack-cli": "^5.1.4",
     "yarn-run-all": "^3.1.1"
   }
 }
