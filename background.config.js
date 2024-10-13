@@ -7,7 +7,7 @@ module.exports = [
         entry: './src/background/background.js',
         output: {
             filename: 'background.js',
-            path: path.resolve(__dirname, 'build'),
+            path: path.resolve(__dirname, 'build/background'),
         },
     }
 ];
